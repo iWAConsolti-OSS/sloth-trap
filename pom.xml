@@ -1,0 +1,70 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>mx.iwa</groupId>
+	<artifactId>flyway-check-plugin</artifactId>
+	<version>0.0.1</version>
+	<packaging>maven-plugin</packaging>
+
+	<developers>
+		<developer>
+			<name>Sergii Borsuk</name>
+		</developer>
+	</developers>
+
+	<dependencies>
+		<dependency>
+			<groupId>org.apache.maven</groupId>
+			<artifactId>maven-plugin-api</artifactId>
+			<version>3.0</version>
+		</dependency>
+
+		<!-- dependencies to annotations -->
+		<dependency>
+			<groupId>org.apache.maven.plugin-tools</groupId>
+			<artifactId>maven-plugin-annotations</artifactId>
+			<version>3.4</version>
+			<scope>provided</scope>
+		</dependency>
+	</dependencies>
+
+	<build>
+		<pluginManagement>
+			<plugins>
+				<plugin>
+					<groupId>mx.iwa</groupId>
+					<artifactId>flyway-maven-plugin</artifactId>
+					<version>0.0.1</version>
+					<executions>
+						<execution>
+							<phase>compile</phase>
+							<goals>
+								<goal>flyway-check</goal>
+							</goals>
+						</execution>
+					</executions>
+					<configuration>
+						<sql>./src/main/resources/db/migration/</sql>
+						<java>./src/main/java/db/migration/</java>
+						<prefix>V</prefix>
+						<separator>__</separator>
+					</configuration>
+				</plugin>
+
+				<plugin>
+					<artifactId>maven-deploy-plugin</artifactId>
+					<version>2.8.1</version>
+					<executions>
+						<execution>
+							<id>default-deploy</id>
+							<phase>deploy</phase>
+							<goals>
+								<goal>deploy</goal>
+							</goals>
+						</execution>
+					</executions>
+				</plugin>
+			</plugins>
+		</pluginManagement>
+	</build>
+</project>
