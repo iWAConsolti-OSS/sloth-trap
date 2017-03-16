@@ -1,6 +1,6 @@
 # Maven plugin #
 
-### Verifies that a project does not contain identical versions of flyway sql and java migrations. ###
+### Verifies that a project does not contain identical versions of Flyway(https://flywaydb.org/) sql and java migrations. ###
 
 ### Add plugin to existing project ###
 * In POM file, add the plugin to build plugins section as shown below.
@@ -32,7 +32,6 @@
 		</pluginManagement>
 	</build>
 ```
-
 
 	
 * Set plugin properties in configuration section.
