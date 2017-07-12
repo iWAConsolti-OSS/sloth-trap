@@ -2,16 +2,31 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	
-	<parent>
-  		<groupId>org.sonatype.oss</groupId>
-  		<artifactId>oss-parent</artifactId>
-  		<version>7</version>
-	</parent>
-	
 	<groupId>com.iwaconsolti</groupId>
 	<artifactId>flyway-check-plugin</artifactId>
-	<version>0.0.1</version>
+	<version>0.0.2</version>
 	<packaging>maven-plugin</packaging>
+	
+	<name>flyway-check-plugin</name>
+	<description>Verifies that a project does not contain identical versions of Flyway(https://flywaydb.org/) sql and java migrations.</description>
+	<url>https://github.com/iWAConsolti-OSS/sloth-trap</url>
+	<licenses>
+  		<license>
+   			<name>The Apache Software License, Version 2.0</name>
+   			<url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+  			</license>
+	</licenses>
+	<developers>
+		<developer>
+			<name>Sergii Borsuk</name>
+		</developer>
+	</developers>
+	
+	<scm>
+  		<connection>scm:git:git://github.com/iWAConsolti-OSS/sloth-trap.git</connection>
+  		<developerConnection>scm:git:ssh://github.com/iWAConsolti-OSS/sloth-trap.git</developerConnection>
+  		<url>https://github.com/iWAConsolti-OSS/sloth-trap</url>
+	</scm>
 	
 	<distributionManagement>
   	<!-- Repository for snapshots -->
@@ -27,12 +42,10 @@
   		</repository>
 	</distributionManagement>
 	
-	<developers>
-		<developer>
-			<name>Sergii Borsuk</name>
-		</developer>
-	</developers>
-
+	<properties>
+  		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+	</properties>	
+	
 	<dependencies>
 		<dependency>
 			<groupId>org.apache.maven</groupId>
@@ -47,94 +60,28 @@
 			<version>3.4</version>
 			<scope>provided</scope>
 		</dependency>
-	</dependencies>			
+	</dependencies>
 	
 	<build>
-		<pluginManagement>
-			<plugins>
-				<plugin>
-					<groupId>com.iwaconsolti</groupId>
-					<artifactId>flyway-maven-plugin</artifactId>
-					<version>0.0.1</version>
-					<executions>
-						<execution>
-							<phase>compile</phase>
-							<goals>
-								<goal>flyway-check</goal>
-							</goals>
-						</execution>
-					</executions>
-					<configuration>
-						<sql>./src/main/resources/db/migration/</sql>
-						<java>./src/main/java/db/migration/</java>
-						<prefix>V</prefix>
-						<separator>__</separator>
-					</configuration>
-				</plugin>
-
-				<plugin>
-					<artifactId>maven-deploy-plugin</artifactId>
-					<version>2.8.1</version>
-					<executions>
-						<execution>
-							<id>default-deploy</id>
-							<phase>deploy</phase>
-							<goals>
-								<goal>deploy</goal>
-							</goals>
-						</execution>
-					</executions>
-				</plugin>				
-				<!-- start plugins for upload at central repository -->
-				<plugin>
-      				<groupId>org.apache.maven.plugins</groupId>
-      				<artifactId>maven-compiler-plugin</artifactId>
-      				<version>2.3.2</version>
-      				<configuration>
-          				<source>1.7</source>
-          				<target>1.7</target>
-      				</configuration>
-  				</plugin>
-  				<plugin>
-      				<artifactId>maven-assembly-plugin</artifactId>
-      				<version>2.3</version>
-      				<configuration>
-          			<descriptorRefs>
-              				<descriptorRef>jar-with-dependencies</descriptorRef>
-	          			</descriptorRefs>
-      				</configuration>
-      				<executions>
-          				<execution>
-              				<phase>package</phase>
-              				<goals>
-                  				<goal>single</goal>
-              				</goals>
-          				</execution>
-     				 </executions>
-  				</plugin>
-  				<plugin>
-      				<groupId>org.apache.maven.plugins</groupId>
-      				<artifactId>maven-source-plugin</artifactId>
-      				<version>2.1.2</version>
-      				<executions>
-          				<execution>
-              				<id>attach-sources</id>
-              				<goals>
-                  				<goal>jar</goal>
-              				</goals>
-          				</execution>
-      				</executions>
-  				</plugin>
-  				<plugin>
-			      	<groupId>org.apache.maven.plugins</groupId>
-    	  			<artifactId>maven-javadoc-plugin</artifactId>
-	      			<configuration>
-          				<quiet>true</quiet>
-          				<nonavbar>true</nonavbar>
-          				<notree>true</notree>
-          				<nocomment>true</nocomment>
-          				<nohelp>true</nohelp>
-      				</configuration>
+		<plugins>										
+			<!-- start plugins for upload at central repository -->
+			<plugin>
+      			<groupId>org.apache.maven.plugins</groupId>
+      			<artifactId>maven-source-plugin</artifactId>
+      			<version>2.2.1</version>
+      			<executions>
+          			<execution>
+              			<id>attach-sources</id>
+              			<goals>
+                  			<goal>jar-no-fork</goal>
+              			</goals>
+          			</execution>
+      			</executions>
+  			</plugin>
+  			<plugin>
+			    <groupId>org.apache.maven.plugins</groupId>
+    	  		<artifactId>maven-javadoc-plugin</artifactId>
+    	  			<version>2.9.1</version>	      			
       				<executions>
           				<execution>
               				<id>attach-javadocs</id>
@@ -143,10 +90,11 @@
               				</goals>
           				</execution>
       				</executions>
-  				</plugin>
+  				</plugin>				
   				<plugin>
       				<groupId>org.apache.maven.plugins</groupId>
       				<artifactId>maven-gpg-plugin</artifactId>
+      				<version>1.5</version>
       				<executions>
           				<execution>
               				<id>sign-artifacts</id>
@@ -158,7 +106,6 @@
       				</executions>
   				</plugin>
 				<!-- end plugins for upload -->				
-			</plugins>		
-		</pluginManagement>		
+		</plugins>			
 	</build>	
 </project>
