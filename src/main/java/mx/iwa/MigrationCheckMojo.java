@@ -12,7 +12,7 @@ import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.plugins.annotations.Mojo;
 import org.apache.maven.plugins.annotations.Parameter;
 
-@Mojo(name = "flyway-check")
+@Mojo(name = "flyway-check", threadSafe = true)
 public class MigrationCheckMojo extends AbstractMojo {
 	@Parameter(defaultValue = "./src/main/resources/db/migration/")
 	private File sql;
