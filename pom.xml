@@ -4,7 +4,7 @@
 	
 	<groupId>com.iwaconsolti</groupId>
 	<artifactId>flyway-check-plugin</artifactId>
-	<version>0.0.2</version>
+	<version>0.0.3</version>
 	<packaging>maven-plugin</packaging>
 	
 	<name>flyway-check-plugin</name>
