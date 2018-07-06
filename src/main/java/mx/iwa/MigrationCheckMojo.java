@@ -19,6 +19,10 @@ public class MigrationCheckMojo extends AbstractMojo {
 
 	@Parameter(defaultValue = "./src/main/java/db/migration/")
 	private File java;
+	
+	 //Disables the plug-in execution.
+    @Parameter( property = "flyway-check.skip", defaultValue = "false" )
+    private boolean skip;
 
 	@Parameter(defaultValue = "V")
 	private String prefix;
@@ -87,6 +91,7 @@ public class MigrationCheckMojo extends AbstractMojo {
 	}
 
 	public void execute() throws MojoExecutionException {
+		if(!skip){
 		if (!sql.exists()) {
 			getLog().warn("Did not check for identical versions of SQL migrations. Folder " + sql.getPath()
 					+ " does not exist.");
@@ -110,6 +115,12 @@ public class MigrationCheckMojo extends AbstractMojo {
 				check(java);
 			}
 		}
+		
 		check();
+		}
+		else{
+		getLog().warn(
+				"Property flyway-check is off");
+		}
 	}
 }
